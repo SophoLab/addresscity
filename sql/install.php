@@ -30,12 +30,23 @@ $sql[] = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'addresscity` (
     `id_addresscity` int(11) NOT NULL AUTO_INCREMENT,
     `id_country` int(10) UNSIGNED NOT NULL,
     `city_name` char(60) NOT NULL DEFAULT "",
+    `active` tinyint(1) NOT NULL DEFAULT 1,
     PRIMARY KEY  (`id_addresscity`),
     FOREIGN KEY (`id_country`)
     REFERENCES `' . _DB_PREFIX_ . 'country`(`id_country`)
 ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;';
 
 //TODO  add new table for addresscity use by user => this table should take ID of addresscity and user id for link both
+$sql[] = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'addresscity_address` (
+    `id_addresscity_address` int(11) NOT NULL AUTO_INCREMENT,
+    `id_address` int(10) UNSIGNED NOT NULL,
+    `id_addresscity` int(11) NOT NULL,
+    PRIMARY KEY  (`id_addresscity_address`),
+    FOREIGN KEY (`id_address`) 
+    REFERENCES `' . _DB_PREFIX_ . 'address`(`id_address`),
+    FOREIGN KEY (`id_addresscity`) 
+    REFERENCES `' . _DB_PREFIX_ . 'addresscity`(`id_addresscity`)
+) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;';
 
 foreach ($sql as $query) {
     if (Db::getInstance()->execute($query) == false) {

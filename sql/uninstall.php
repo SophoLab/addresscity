@@ -32,7 +32,11 @@
  */
 $sql = array();
 
-$sql[] = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'addresscity';
+
+$sql[] = 'ALTER TABLE `' . _DB_PREFIX_ . 'addresscity` DROP FOREIGN KEY IF EXISTS `id_country`';
+$sql[] = 'ALTER TABLE `' . _DB_PREFIX_ . 'addresscity_address` DROP FOREIGN KEY IF EXISTS `id_addresscity`';
+$sql[] = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'addresscity_address`';
+$sql[] = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'addresscity`';
 
 foreach ($sql as $query) {
     if (Db::getInstance()->execute($query) == false) {
